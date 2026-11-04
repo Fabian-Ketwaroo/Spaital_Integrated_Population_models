@@ -1,0 +1,65 @@
+Case study: Gray Catbird. 
+
+
+This folder contains all scripts and processed data required to reproduce the case study analysis presented in the manuscript.
+
+We apply the proposed spatially explicit integrated population model (sIPM) to jointly analyse:
+Count data from the North American Breeding Bird Survey (BBS)
+Capture–recapture (CR) data from the Monitoring Avian Productivity and Survivorship (MAPS) program
+
+We consider BBS and MAPS sampling locations along the eastern coast of North America from 2004–2014.
+
+
+File description
+
+- GRCA_data_2004_2014.Rdata: Processed data required to reproduce the analysis. Contains:
+ $ C: BBS count spatio-temporal data
+ $ obs: observers identity
+ $ oby1: first time observer covariate: 1 = 1st time observer
+ $ Fm: spatio-temporal m-array for mixture of transient and residual indiviuals 
+ $ Rm: spatio-temporal m-array for residual indiviuals 
+ $ visits: binary covariate with 1 denoting sampling location was sampled and 0 denoting sampling location was not sampled.
+ $ GRCA_splocations: spatial co-ordinates of BBS and MAPS sampling locations
+ $ Tmax.resid: spatio-temporal values of residual maximum temperature
+ 
+- Data_csv/folder contains GRCA_data_2004_2014.Rdata but in csv form. Since cvs cannot save 3 dimensional arrays. We save Fm and Rm per sampling locations.
+ 
+- bcr_terrestrial_shape: Shapefiles of Bird Conservation Regions (BCRs) used for mapping and visualization.
+ 
+- NNGP_functions.R: Functions required to implement the nearest-neighbour Gaussian process (NNGP).
+
+- GRCA_SV_NNGP.R: code to perform analysis of Gray Catbirds with a model that uses nearest-neighbor Gaussian process (NNGP) and a spatially varying covariate effect on residual maximum temperature. Also includes code to perform model. This is the primary model used in the manuscript.
+  
+- GRCA_main_samples_NNGP_SV.Rdata: MCMC samples from running GRCA_SV_NNGP. Parameters include: "rf","w","alpha.p", "eta",  "wst", "wft", "rho.as",  "alpha2.as", "rho.af",  "alpha2.af",
+                           "beta.f.tmax", "beta.s.tmax", "beta.f.long", "beta.s.long", "beta.f.lat", "beta.s.lat", "beta.f.tmaxlong", "beta.s.tmaxlong", "beta.f.tmaxlat", "beta.s.tmaxlat" 
+                           
+- GRCA_samples2_NNGP_SV.Rdata: MCMC samples from running GRCA_SV_NNGP. Parameters include: "C.pred",   "Fm.pred", "Rm.pred", "N",   "sa", "f", "growth.rate", "w.af", "w.as"                           
+
+- GRCA_SV_No_NNGP.R: code to perform analysis of Gray Catbirds with a model that uses a spatially varying covariate effect on residual maximum temperature
+  and doesn't include the NNGP. Also includes code to perform model.  
+  
+- GRCA_SC_NNGP.R: code to perform analysis of Gray Catbirds with a model that uses nearest-neighbor Gaussian process (NNGP) 
+  and a constant covariate effect on residual maximum temperature. Also includes code to perform model.   
+  
+- GRCA_SC_No_NNGP.R: code to perform analysis of Gray Catbirds with a model that uses a spatially constant covariate effect on residual maximum temperature
+  and doesn't include the NNGP. Also includes code to perform model.   
+  
+- GOF.R: code to perform Goodness of fit using the best selected model (GRCA_SV_NNGP.R)
+  
+- GRCA_predictions_phi_f.R: code to produce spatially continuous predictions of survival and recruitment averaged over 2004-2014 using estimates obtained from GRCA_SV_NNGP.R. The MCMC outputs need to preform predictions are in GRCA_main_samples_NNGP_SV.Rdata and GRCA_samples2_NNGP_SV.Rdata
+
+- GRCA_predictions_N_gr.R: code to produce spatially continuous predictions of population growth rate and relative abundance averaged over 2004-2014 using estimates obtained from GRCA_SV_NNGP.R. The MCMC output needed to preform predictions are in GRCA_samples2_NNGP_SV.Rdata.   
+
+- Case study workflow.pdf: A comprehensive visual roadmap mapping the execution steps and critical researcher decision points for the empirical case study application. This flowchart directly mirrors the sequence detailed in the manuscript's Methods section and serves as a guide for navigating and modifying the provided R scripts.
+
+
+Recommended Execution Order:
+1. Run GRCA_SV_NNGP.R (or alternative model scripts).
+2. Assess model fit using GOF.R.
+3. Generate spatial predictions using the prediction scripts (GRCA_predictions_phi_f.R and GRCA_predictions_N_gr.R).
+
+Computational Note: 
+All scripts assume dependencies listed in packages_needed.R have been installed. 
+For users wishing to bypass long model execution times, the pre-computed MCMC samples from GRCA_SV_NNGP.R are already provided in the files GRCA_main_samples_NNGP_SV.Rdata and GRCA_samples2_NNGP_SV.Rdata within the case study folder.
+This allows you to skip step 1 and preform step 3 to generate the spatial predictions immediately.
+
