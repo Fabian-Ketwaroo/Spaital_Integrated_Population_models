@@ -1,0 +1,102 @@
+================================================================================
+SAMPLING INTENSITY SIMULATION STUDY
+Supporting Information Section S1.6
+================================================================================
+
+This folder contains the scripts used to produce the sampling intensity
+simulation experiment reported in Section S1.6 of the Supporting Information
+(Figures S3-S4, Tables S9-S11).
+
+The experiment repeats the spatial misalignment scenario at four levels of
+sampling intensity to assess how the number of sampling locations affects
+estimation accuracy and predictive performance.
+
+
+--------------------------------------------------------------------------------
+1. DESIGN
+--------------------------------------------------------------------------------
+
+At each level, the true process is simulated over the unit square and
+partitioned at random into a fitting set of M locations and a hold-out set of q
+locations used to assess prediction. Within the fitting set, 80% of locations are
+count locations and 20% are capture-recapture locations.
+
+  Script     M     Count   CR     q     Total
+  -------   ---    -----   ---   ---    -----
+  M80.R      80      64     16    20      100
+  M200.R    200     160     40    50      250
+  M500.R    500     400    100   100      600
+  M800.R    800     640    160   200     1000
+
+All locations are sampled on all T = 6 occasions, so this experiment isolates the
+effect of sampling intensity from that of temporal misalignment. Covariate
+effects are spatially constant. Each level comprises 100 simulation replicates.
+
+The M = 500 level is the spatial misalignment scenario reported in the main text
+and reproduces it exactly.
+
+--------------------------------------------------------------------------------
+2. REQUIREMENTS
+--------------------------------------------------------------------------------
+
+R version 4.4.2 or later.
+
+R packages: nimble, sf, MCMCvis, coda, MASS, parallel
+
+Run ../packages_needed.R first to install all dependencies. Note that climateR
+and AOI are installed from GitHub via the remotes package; see that script for
+details.
+
+
+--------------------------------------------------------------------------------
+3. HOW TO RUN
+--------------------------------------------------------------------------------
+
+Run each script directly. Within each script, the two MCMC chains are run in
+parallel on 2 cores.
+
+    Rscript M80.R
+    Rscript M200.R
+    Rscript M500.R
+    Rscript M800.R
+
+Or source them from an R session:
+
+    source("M500.R")
+
+Each script runs all 100 simulation replicates sequentially. Because of the
+computation times below, running M800.R on a high-performance computing cluster
+is strongly recommended.
+
+
+--------------------------------------------------------------------------------
+4. COMPUTATION TIME
+--------------------------------------------------------------------------------
+
+Approximate wall-clock time per replicate (two chains in parallel):
+
+    M = 80    0.11 h
+    M = 200   0.19 h
+    M = 500   0.90 h
+    M = 800   4.47 h
+
+Times for M = 80, 200 and 800 were obtained on an HPC cluster and the time for
+M = 500 on a local workstation (Apple M4 Max, 48 GB unified memory), so they are
+not directly comparable across levels. See Table S11 of the Supporting
+Information for full details.
+
+
+--------------------------------------------------------------------------------
+5. NOTES
+--------------------------------------------------------------------------------
+
+NIMBLE emits the following warnings during model building. They are harmless
+side-effects of how the m-array likelihood is specified and do not affect the
+validity of the model code or the results:
+
+
+    "dimensions specified are larger than model specification for variable 'Rm'"
+
+Seeds are set from the global replicate number (1:100).
+
+
