@@ -1,0 +1,12 @@
+
+Repository for:
+
+An Integrated Population Model to Incorporate Spatio-Temporal Heterogeneity in Demographic Rates
+
+Folder description:
+
+- packages_needed.R: Script to install and load all required R packages used in the simulation study and case study analyses.
+
+- Case study: Contains scripts to reproduce the spatially explicit integrated population model (sIPM) analysis of Gray Catbird data, including model fitting, posterior summaries, spatial predictions, and figure generation. This folder also includes the cleaned data required to reproduce the analysis.
+
+- Simulation study: Contains scripts to generate simulated datasets, fit the proposed sIPM, evaluate model performance, and reproduce all simulation results presented in the manuscript.
