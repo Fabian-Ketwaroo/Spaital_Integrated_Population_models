@@ -33,7 +33,7 @@ File description
 - GRCA_main_samples_NNGP_SV.Rdata: MCMC samples from running GRCA_SV_NNGP. Parameters include: "rf","w","alpha.p", "eta",  "wst", "wft", "rho.as",  "alpha2.as", "rho.af",  "alpha2.af",
                            "beta.f.tmax", "beta.s.tmax", "beta.f.long", "beta.s.long", "beta.f.lat", "beta.s.lat", "beta.f.tmaxlong", "beta.s.tmaxlong", "beta.f.tmaxlat", "beta.s.tmaxlat" 
                            
-- GRCA_samples2_NNGP_SV.Rdata: MCMC samples from running GRCA_SV_NNGP. Parameters include: "C.pred",   "Fm.pred", "Rm.pred", "N",   "sa", "f", "growth.rate", "w.af", "w.as"                           
+- GRCA_samples2_NNGP_SV.Rdata: MCMC samples from running GRCA_SV_NNGP. Parameters include: "C.pred",   "Fm.pred", "Rm.pred", "N",   "sa", "f", "growth.rate", "w.af", "w.as". File available at https://doi.org/10.5281/zenodo.22029221                           
 
 - GRCA_SV_No_NNGP.R: code to perform analysis of Gray Catbirds with a model that uses a spatially varying covariate effect on residual maximum temperature
   and doesn't include the NNGP. Also includes code to perform model.  
