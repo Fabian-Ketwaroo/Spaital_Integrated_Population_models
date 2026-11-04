@@ -1,0 +1,75 @@
+This folder contains scripts used to conduct the simulation study presented in the
+manuscript. The simulations explore the performance of the spatially explicit integrated
+population model (sIPM).
+
+Main simulation study
+
+- Perfect_alignment.R: Runs simulations under the scenario where count and
+  capture-recapture data are perfectly aligned in space and time.
+- Spatial_misalignment.R: Runs simulations where count and capture-recapture data are
+  spatially misaligned, without temporal misalignment.
+- SC_Spatio_temporal_misalignment_high.R: Simulations with spatial misalignment and high
+  temporal misalignment, using a spatially constant covariate effect.
+- SC_Spatio_temporal_misalignment_low.R: Simulations with spatial misalignment and low
+  temporal misalignment, using a spatially constant covariate effect.
+- SV_Spatio_temporal_misalignment_high.R: Simulations with spatial misalignment and high
+  temporal misalignment, using a spatially varying covariate effect.
+- SV_Spatio_temporal_misalignment_low.R: Simulations with spatial misalignment and low
+  temporal misalignment, using a spatially varying covariate effect.
+
+Sampling_intensity/
+
+Contains the additional experiment reported in Section S1.6 of the Supporting Information,
+which repeats the spatial misalignment scenario at four levels of sampling intensity
+(M = 80, 200, 500 and 800 locations used for model fitting). See the README in that folder
+for design details, run instructions and computation times.
+
+Recommended Execution Order
+
+1. Perfect_alignment.R - establishes baseline performance.
+2. Spatial_misalignment.R - explores purely spatial misalignment.
+3. SC / SV scripts - explore combinations of spatial and temporal misalignment with
+   different covariate specifications.
+4. Sampling_intensity/ - explores the effect of the number of sampling locations.
+
+Notes
+
+All scripts assume dependencies in packages_needed.R have been installed. Expected
+computation times for each script are reported in Section S1.3 and Table S8 of the
+Supporting Information.
+
+--------------------------------------------------------------------------------
+NOTE ON MCMC SETTINGS
+--------------------------------------------------------------------------------
+
+Each script uses the final 1000 posterior samples per chain for prediction,
+selected by explicit row indices. Two MCMC configurations are used across the
+simulation study, and the indices differ accordingly:
+
+  Scripts                              runMCMC settings                  Indices
+  ----------------------------------   -------------------------------   -----------------
+  Perfect_alignment.R                  niter    = 85000                  primary:   1501:2500
+  Spatial_misalignment.R               nburnin  = 60000                  secondary:  251:1250
+  SC_Spatio_temporal_misalignment_     thin     = 10
+    high.R and _low.R                  thin2    = 20
+  Sampling intensity/M80.R, M200.R,
+    M500.R and M800.R
+
+  SV_Spatio_temporal_misalignment_     niter    = 125000                 primary:   2001:3000
+    high.R and _low.R                  nburnin  = 80000                  secondary:  801:1800
+                                       thin     = 15
+                                       thin2    = 25
+
+The first configuration retains (85000 - 60000)/10 = 2500 primary and
+(85000 - 60000)/20 = 1250 secondary samples per chain; the second retains
+45000/15 = 3000 and 45000/25 = 1800. In each case the indices select the last
+1000 rows.
+
+The spatially varying scripts use longer chains because the additional regression
+coefficients mix more slowly.
+
+IMPORTANT: if you change niter, nburnin, thin or thin2, these row indices will no
+longer be valid. R returns NA rather than an error for out-of-range row indices,
+so the scripts will run to completion but produce NA or invalid predictions with
+no warning. If you alter the MCMC settings, update both index ranges to select the
+final 1000 rows of each chain.
