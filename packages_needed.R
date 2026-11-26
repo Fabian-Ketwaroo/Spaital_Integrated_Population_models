@@ -1,5 +1,4 @@
 
-
 # ==========================================
 # 1. Define & Install Required CRAN Packages
 # ==========================================
@@ -20,9 +19,11 @@ invisible(lapply(packages, install_if_missing))
 
 
 # ==========================================
-# 2. Install GitHub Packages (climateR & AOI)
+# 2. Install GitHub Packages (climateR, AOI & BayesNSGP)
 # ==========================================
-# These are not on CRAN and must be installed from GitHub.
+# These must be installed from GitHub. BayesNSGP is installed from GitHub because the
+# scripts use functions (e.g. NNGP.pred, RW_NN_GP) that are newer than the CRAN release;
+# the package lives in the 'BayesNSGP' subfolder of the repository.
 #
 # If installation fails with a rate-limit or authentication error, you may need a
 # GitHub Personal Access Token. Create one at https://github.com/settings/tokens
@@ -35,6 +36,7 @@ invisible(lapply(packages, install_if_missing))
 
 remotes::install_github("mikejohnson51/AOI")
 remotes::install_github("mikejohnson51/climateR")
+remotes::install_github("danielturek/BayesNSGP", subdir = "BayesNSGP")
 
 # ==========================================
 # 3. Load All Packages
@@ -46,6 +48,6 @@ invisible(lapply(packages, function(pkg) {
 }))
 
 # Explicitly load the GitHub packages as well
+suppressPackageStartupMessages(library(BayesNSGP))
 suppressPackageStartupMessages(library(AOI))
 suppressPackageStartupMessages(library(climateR))
-
