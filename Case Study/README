@@ -74,7 +74,7 @@ Requirements: the development version of BayesNSGP (see the main README) and the
 
 Files:
 
-- GRCA_SV_BayesNSGP.R: same model and data as GRCA_SV_NNGP.R. The NNGP functions come from BayesNSGP. Set sampler_type to "RW_NN_GP" (BayesNSGP sampler) or "RW" (NIMBLE scalar random walk, as in GRCA_SV_NNGP.R) and run the script once for each, in a fresh R session. Saves results/sipm_<sampler_type>.rds containing the samples, the run time and the MCMC settings.
+- GRCA_SV_BayesNSGP.R: same model and data as GRCA_SV_NNGP.R. The NNGP functions come from BayesNSGP. Set sampler_type to "RW_NN_GP" (BayesNSGP sampler) or "RW" (NIMBLE scalar random walk, as in GRCA_SV_NNGP.R) and run the script once for each, in a fresh R session. Saves Case study/sipm_<sampler_type>.rds containing the samples, the run time and the MCMC settings.
 
 - GRCA_compare_samplers.R: reads the two results files and reports run time, effective sample size per second, R-hat, agreement of posterior means (relative to Monte Carlo error) and the correlation of the posterior mean spatial effects. Stops if the two runs used different MCMC settings.
 
