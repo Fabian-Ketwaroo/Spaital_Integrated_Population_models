@@ -32,6 +32,6 @@ These functions have since been developed, documented and tested as the R packag
 - a local-update MCMC sampler (`RW_NN_GP`),
 - posterior prediction (`NNGP.pred`).
 
-The package is described in Ketwaroo and Turek (submitted to the *Journal of Open Source Software).
+The package is described in Ketwaroo and Turek (submitted to the *Journal of Open Source Software*).
 
 The Case Study folder contains, in addition to the original scripts, a re-run of the case study with BayesNSGP and a comparison of run time and posterior estimates with the original implementation (see [Re-running the case study with BayesNSGP](Case%20Study/README.md#re-running-the-case-study-with-bayesnsgp)). The original scripts and results are unchanged.
