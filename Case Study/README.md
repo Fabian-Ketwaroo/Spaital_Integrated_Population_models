@@ -76,7 +76,7 @@ The manuscript results were produced with the standalone NNGP functions in `NNGP
 | `GRCA_SV_BayesNSGP.R` | Same model and data as `GRCA_SV_NNGP.R`, with the NNGP functions from BayesNSGP. Set `sampler_type` to `"RW_NN_GP"` (BayesNSGP sampler) or `"RW"` (NIMBLE scalar random walk, as in `GRCA_SV_NNGP.R`) and run the script once for each, in a fresh R session. Saves `sipm_<sampler_type>.rds` with the samples, run time and MCMC settings. |
 | `GRCA_compare_samplers.R` | Reads the two results files and reports run time, effective sample size per second, the agreement of the identifiable quantities (survival `sa`, recruitment `f`, hyperparameters, fixed effects) and the agreement of the survival spatial field `w.as`, which is judged against the agreement between two chains of the same run. Writes `comparison_summary.csv` and two figures. Stops if the two runs used different MCMC settings. |
 | `GRCA_predictions_phi_f_BayesNSGP.R` | Spatially continuous predictions of survival and recruitment, as `GRCA_predictions_phi_f.R`, but with `NNGP.pred()` from BayesNSGP. Uses `sipm_RW_NN_GP.rds`. |
-| `sipm_RW.rds`, `sipm_RW_NN_GP.rds` | Output of `GRCA_SV_BayesNSGP.R` for the two sampler types. [Add: the spatial effects (`samples2`) are large; state whether they are included or where they are archived, e.g. Zenodo.] |
+| `sipm_RW.rds`, `sipm_RW_NN_GP.rds` | Output of `GRCA_SV_BayesNSGP.R` for the two sampler types. The spatial effects (`samples2`) are large and not included on this repository; available at <https://doi.org/10.5281/zenodo.22029221> |
 
 ### Settings
 
@@ -108,7 +108,6 @@ Each run used one core (NIMBLE runs the two chains one after the other), and not
 3. **Prediction.** The neighbor search is done once per prediction location and all posterior draws are predicted together. The spatial effects and hyperparameters used for one prediction draw come from the same MCMC iteration (rows of `samples` and `samples2` are matched by iteration number, because they are thinned differently).
 4. **Locations west of all sampling locations.** These have no preceding neighbors and are drawn from the marginal distribution of the spatial effect.
 
-[Optional: state whether and how 3 and 4 change the maps in the manuscript, once checked.]
 
 ### Results of the comparison
 
