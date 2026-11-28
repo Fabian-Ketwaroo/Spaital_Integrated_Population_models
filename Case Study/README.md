@@ -171,4 +171,3 @@ All scripts assume the dependencies in `packages_needed.R` have been installed.
 
 To skip long model runs, the pre-computed MCMC samples from `GRCA_SV_NNGP.R` are provided in `GRCA_main_samples_NNGP_SV.Rdata` and `GRCA_samples2_NNGP_SV.Rdata` (the latter on Zenodo, see above). You can skip step 1 and go straight to step 3 to generate the spatial predictions.
 
-The two BayesNSGP runs take [ ] and [ ] hours. For a quick test of the scripts, reduce `mcmc_settings` in `GRCA_SV_BayesNSGP.R` (for example `niter = 2000, nburnin = 1000, thin = 10, thin2 = 20`). The comparison script requires identical settings for both runs.
