@@ -73,10 +73,10 @@ The manuscript results were produced with the standalone NNGP functions in `NNGP
 
 | File | Description |
 |---|---|
-| `GRCA_SV_BayesNSGP.R` | Same model and data as `GRCA_SV_NNGP.R`, with the NNGP functions from BayesNSGP. Set `sampler_type` to `"RW_NN_GP"` (BayesNSGP sampler) or `"RW"` (NIMBLE scalar random walk, as in `GRCA_SV_NNGP.R`) and run the script once for each, in a fresh R session. Saves `results/sipm_<sampler_type>.rds` with the samples, run time and MCMC settings. |
-| `GRCA_compare_samplers.R` | Reads the two results files and reports run time, effective sample size per second, the agreement of the identifiable quantities (survival `sa`, recruitment `f`, hyperparameters, fixed effects) and the agreement of the survival spatial field `w.as`, which is judged against the agreement between two chains of the same run. Writes `results/comparison_summary.csv` and two figures. Stops if the two runs used different MCMC settings. |
-| `GRCA_predictions_phi_f_BayesNSGP.R` | Spatially continuous predictions of survival and recruitment, as `GRCA_predictions_phi_f.R`, but with `NNGP.pred()` from BayesNSGP. Uses `results/sipm_RW_NN_GP.rds`. |
-| `results/sipm_RW.rds`, `results/sipm_RW_NN_GP.rds` | Output of `GRCA_SV_BayesNSGP.R` for the two sampler types. [Add: the spatial effects (`samples2`) are large; state whether they are included or where they are archived, e.g. Zenodo.] |
+| `GRCA_SV_BayesNSGP.R` | Same model and data as `GRCA_SV_NNGP.R`, with the NNGP functions from BayesNSGP. Set `sampler_type` to `"RW_NN_GP"` (BayesNSGP sampler) or `"RW"` (NIMBLE scalar random walk, as in `GRCA_SV_NNGP.R`) and run the script once for each, in a fresh R session. Saves `sipm_<sampler_type>.rds` with the samples, run time and MCMC settings. |
+| `GRCA_compare_samplers.R` | Reads the two results files and reports run time, effective sample size per second, the agreement of the identifiable quantities (survival `sa`, recruitment `f`, hyperparameters, fixed effects) and the agreement of the survival spatial field `w.as`, which is judged against the agreement between two chains of the same run. Writes `comparison_summary.csv` and two figures. Stops if the two runs used different MCMC settings. |
+| `GRCA_predictions_phi_f_BayesNSGP.R` | Spatially continuous predictions of survival and recruitment, as `GRCA_predictions_phi_f.R`, but with `NNGP.pred()` from BayesNSGP. Uses `sipm_RW_NN_GP.rds`. |
+| `sipm_RW.rds`, `sipm_RW_NN_GP.rds` | Output of `GRCA_SV_BayesNSGP.R` for the two sampler types. [Add: the spatial effects (`samples2`) are large; state whether they are included or where they are archived, e.g. Zenodo.] |
 
 ### Settings
 
