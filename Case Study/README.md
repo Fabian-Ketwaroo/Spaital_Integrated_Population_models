@@ -89,7 +89,17 @@ runMCMC(FullModelmod,
         inits = list(inits1, inits2), setSeed = c(1, 2), summary = TRUE)
 ```
 
-[Add: machine, number of cores, R, nimble and BayesNSGP versions. `sessionInfo()` is stored inside each `.rds` file.]
+Software and hardware (from `sessionInfo()`, which is stored inside each `.rds` file as `$session`):
+ 
+| | |
+|---|---|
+| R | 4.4.2 |
+| nimble | 1.4.1 |
+| BayesNSGP | development version from GitHub (package version 0.3.1; commit [https://github.com/danielturek/BayesNSGP/pull/14] [https://github.com/danielturek/BayesNSGP/pull/15] |
+| sf | 1.0.19 |
+| Platform | aarch64-apple-darwin20 (macOS), single core (Apple M4 Max) |
+ 
+Each run used one core (NIMBLE runs the two chains one after the other), and nothing else was running on the machine during the timing.
 
 ### Differences from the original scripts
 
