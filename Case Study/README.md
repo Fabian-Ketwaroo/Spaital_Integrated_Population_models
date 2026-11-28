@@ -74,7 +74,7 @@ The manuscript results were produced with the standalone NNGP functions in `NNGP
 | File | Description |
 |---|---|
 | `GRCA_SV_BayesNSGP.R` | Same model and data as `GRCA_SV_NNGP.R`, with the NNGP functions from BayesNSGP. Set `sampler_type` to `"RW_NN_GP"` (BayesNSGP sampler) or `"RW"` (NIMBLE scalar random walk, as in `GRCA_SV_NNGP.R`) and run the script once for each, in a fresh R session. Saves `results/sipm_<sampler_type>.rds` with the samples, run time and MCMC settings. |
-| `GRCA_compare_samplers.R` | Reads the two results files and reports run time, effective sample size per second, R-hat, agreement of posterior means (relative to Monte Carlo error) and the correlation of the posterior mean spatial effects. Stops if the two runs used different MCMC settings. |
+| `GRCA_compare_samplers.R` | Reads the two results files and reports run time, effective sample size per second, the agreement of the identifiable quantities (survival `sa`, recruitment `f`, hyperparameters, fixed effects) and the agreement of the survival spatial field `w.as`, which is judged against the agreement between two chains of the same run. Writes `results/comparison_summary.csv` and two figures. Stops if the two runs used different MCMC settings. |
 | `GRCA_predictions_phi_f_BayesNSGP.R` | Spatially continuous predictions of survival and recruitment, as `GRCA_predictions_phi_f.R`, but with `NNGP.pred()` from BayesNSGP. Uses `results/sipm_RW_NN_GP.rds`. |
 | `results/sipm_RW.rds`, `results/sipm_RW_NN_GP.rds` | Output of `GRCA_SV_BayesNSGP.R` for the two sampler types. [Add: the spatial effects (`samples2`) are large; state whether they are included or where they are archived, e.g. Zenodo.] |
 
@@ -102,18 +102,43 @@ runMCMC(FullModelmod,
 
 ### Results of the comparison
 
-Output of `GRCA_compare_samplers.R` ([date]):
+Output of `GRCA_compare_samplers.R` (28 November 2026). Both runs use the settings above.
+
+**Run time and efficiency**
 
 | | RW | RW_NN_GP |
 |---|---|---|
-| Run time (hours) | [ ] | [ ] |
-| Median effective sample size per second | [ ] | [ ] (ratio [ ]) |
-| Largest R-hat | [ ] | [ ] |
+| Run time (hours) | 20.0 | 9.0 |
+| Speed-up | | 2.2× |
+| Effective sample size per second, ratio RW_NN_GP / RW | | median 2.4 (range 1.2 to 4.8 over monitored parameters) |
 
-- Parameters with posterior means within 2 Monte Carlo SE of each other: [ ]
-- Correlation of posterior mean spatial effects (survival): [ ]
+**Agreement of the identifiable quantities.** Both samplers give the same posterior for the quantities that the data identify:
 
-[Add one or two sentences interpreting the table, including which parameters have R-hat above 1.05 in either run.]
+- Posterior means of survival (`sa`) and recruitment (`f`) are almost identical: correlation 0.983 for `sa` (7590 nodes) and 0.984 for `f` (6970 nodes).
+- The hyperparameters agree between the two runs (for example `rho.as` is about 900 km in both runs, `alpha2.as` about 0.08).
+
+**Survival spatial field (`w.as`).** The posterior means of `w.as` agree only up to Monte Carlo error. This is a limit of the model, not of the sampler:
+
+| Correlation of posterior means of `w.as` | |
+|---|---|
+| Between the two runs | 0.73 |
+| Between chain 1 and chain 2 of RW | 0.62 |
+| Between chain 1 and chain 2 of RW_NN_GP | 0.84 |
+
+The between-run value lies between the two within-run values, so the two samplers differ no more than two chains of the same sampler. The spatial field is only weakly identified. Survival at a site is the sum of a temporal intercept, the covariate terms (including linear longitude and latitude) and `w.as`, and with very few capture-recapture locations the smooth part of the field trades off with the intercept and the longitude/latitude terms. This is visible in the per-chain posterior means of `wst[1]`, which differ more between chains than between samplers. The posterior of `rho.as` is also close to the upper end of its prior (`dmax/3`, about 990 km), that is, the data favour a very smooth survival field.
+
+**Mixing.** The convergence diagnostics are similar for the two runs and are limited by the model:
+
+| | RW | RW_NN_GP |
+|---|---|---|
+| Largest R-hat, monitored parameters | 1.35 | 1.19 |
+| `w.as` nodes: median effective sample size | 166 | 153 |
+| `w.as` nodes: share with R-hat above 1.1 | 0.18 | 0.14 |
+| `w.as` nodes: largest R-hat | 2.82 | 1.38 |
+
+Posterior means of the monitored parameters of the two runs differ by less than 2 Monte Carlo SE for 75% of the parameters. Because the effective sample size ignores differences between chains, the Monte Carlo SEs are too small where R-hat is large, so this share is below the 95% expected under identical posteriors even though the two samplers target the same distribution.
+
+**Summary.** The BayesNSGP sampler gives the same estimates of survival, recruitment and the hyperparameters as the scalar random-walk sampler, 2.2 times faster. The survival spatial effects themselves are only weakly identified and, with this chain length, not precisely estimated by either sampler; R-hat is above 1.1 for some nodes in both runs.
 
 ## Recommended execution order
 
